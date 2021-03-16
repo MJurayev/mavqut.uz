@@ -6,12 +6,12 @@ const ServerProvider = ({children}) => {
 
     const [state,setState] = useState()
 
-    const isTester = true
+    const isTester = false
     
     useEffect(()=>{
         const server = {
             server_dev: "http://localhost:8080",
-            server_dep: "https://gentle-plains-28872.herokuapp.com"
+            server_dep: "https://mavqut.cleverapps.io"
         }
         if (isTester) {
             setState(server.server_dev)
