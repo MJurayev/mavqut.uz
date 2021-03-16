@@ -8,6 +8,7 @@ import { useServer } from '../app/ServerContext'
 import { Lang } from "../lang/languages"
 import { useLang } from '../lang/langContext'
 import { useParams } from 'react-router-dom'
+import { isCompositeComponent } from 'react-dom/test-utils'
 
 function RuzaUpdate() {
 	const [server] = useServer()
@@ -27,7 +28,7 @@ function RuzaUpdate() {
     const years = [1992,1993,1994,1995,1996,1997,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022]
     
 
-    const [cDay, setCDay] = useState()
+    const [cDay, setCDay] = useState(0)
     const [cMonth, setCMonth] = useState()
     const [cYear, setCYear] = useState()
     useEffect(()=>{
@@ -44,9 +45,10 @@ function RuzaUpdate() {
 	const vitr = useRef()
 	const ruza = useRef()
     const dayRef = useRef()
+    
     async function updateInfo(e) {
 		e.preventDefault()
-        console.log(cYear+"-"+cDay+"-"+cMonth)
+        
 		const userRemnantData = {
             bomdod: bomdod.current.value,
             peshin: peshin.current.value,
@@ -54,31 +56,49 @@ function RuzaUpdate() {
             shom: shom.current.value,
             xufton: xufton.current.value,
             vitr: vitr.current.value,
-            ruza: ruza.current.value,
-            selectDate:new Date(cYear+"-"+cMonth+"-"+cDay)
+            fasting: ruza.current.checked,
+            created_at:new Date(years[cYear]+"-"+cMonth+"-"+cDay).toJSON()
 		}
-        
+        console.log(userRemnantData)
 		if(server){
-			await axios.post(server + '/api/remnant', {
-				userRemnantData
+			await axios.post(server + '/api/remnant',userRemnantData,  {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization':`Bearer ${window.localStorage.getItem('access_token')}`
+                },
+				
 			}).then(res=>{
                 
                 document.querySelector('.submitted').classList.add('submitted--block')
                 console.log(res)
             }).catch(err=>{
                 console.log(err)
+
             })
 		}
 	}
-
+    
     const updateDay=()=>{
-       setCDay(dayRef.current.value+1)
     }
     const updateMonth=(month)=>{
         setCMonth(month+1)
+        console.log(`Year : ${month}`)
     }
     const updateYear=(year)=>{
-        setCYear(year+1)
+        console.log(`Year : ${year}`)
+        setCYear(year)
+    }
+
+    const ruzaCheckStyle = {
+        width:'20px',
+        height:'20px',
+        transition:'all .3s ease',
+        // marginRight:'auto',
+        // marginLeft:'60px',
+        paddingRight:'30px',
+        paddingLeft:'auto',
+        marginTop:'auto',
+        marginBottom:'auto',
     }
 
     return (
@@ -111,9 +131,9 @@ function RuzaUpdate() {
         {Lang[language].main.calculate.vitr}
         <input ref={vitr} maxLength="2" type="text" id="vitr"/>
         </label>
-        <label htmlFor="ruza">
+        <label style={{paddingLeft:'30px'}} htmlFor="ruza">
         {Lang[language].main.calculate.fasting}
-        <input ref={ruza} maxLength="1" type="text" id="ruza"/>
+        <input ref={ruza} style={ruzaCheckStyle} maxLength="1" type="checkbox" id="ruza"/>
         </label>
         </div>
         <div className="ruza-update-date">
