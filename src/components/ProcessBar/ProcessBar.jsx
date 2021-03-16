@@ -59,7 +59,7 @@ function ProcessBar() {
     useEffect(()=>{
 		;(async()=>{
 			if (server) {
-				const resp1 = await axios.get(server + '/api/remnant/info',{
+				const resp1 = await axios.get(`${server}/api/remnant/info`,{
 					headers: {
 						'authorization': `Bearer ${token}`
 					}

@@ -24,7 +24,7 @@ function UserMain({type, who}) {
 	useEffect(()=>{
 		;(async()=>{
 			if (server) {
-				const resp = await axios.get(server + '/api/user/info',{
+				const resp = await axios.get(`${server}/api/user/info`,{
 					headers: {
 						'authorization': `Bearer ${token}`
 					}

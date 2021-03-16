@@ -32,7 +32,8 @@ function DonatProcess() {
         const token = window.localStorage.getItem("access_token")
 
         ;(async()=>{
-            const resp1 = await axios.get(server + '/api/remnant/info',{
+            console.log(server)
+            const resp1 = await axios.get(`${server}/api/remnant/info`,{
                 headers: {
                     'authorization': `Bearer ${token}`
                 }

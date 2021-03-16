@@ -1,25 +1,14 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 const Context = createContext()
 
 const ServerProvider = ({children}) => {
-
-    const [state,setState] = useState()
-
+    const server = {
+        server_dev: "http://localhost:8080",
+        server_dep: "https://mavqut.cleverapps.io"
+    }
     const isTester = false
-    
-    useEffect(()=>{
-        const server = {
-            server_dev: "http://localhost:8080",
-            server_dep: "https://mavqut.cleverapps.io"
-        }
-        if (isTester) {
-            setState(server.server_dev)
-        } else {
-            setState(server.server_dep)
-        }
-    },[isTester])
-
+    const [state,setState] = useState(isTester ? server.server_dev : server.server_dep)
     const value = {
         state,
         setState

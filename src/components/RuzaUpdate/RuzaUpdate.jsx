@@ -8,10 +8,9 @@ import { useServer } from '../app/ServerContext'
 import { Lang } from "../lang/languages"
 import { useLang } from '../lang/langContext'
 import { useParams } from 'react-router-dom'
-import { isCompositeComponent } from 'react-dom/test-utils'
 
 function RuzaUpdate() {
-	const [server] = useServer()
+	const [server] =useServer()
 
     const [language, setLanguage] = useLang()
 	const { lang } = useParams()
@@ -28,7 +27,6 @@ function RuzaUpdate() {
     const years = [1992,1993,1994,1995,1996,1997,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022]
     
 
-    const [cDay, setCDay] = useState(0)
     const [cMonth, setCMonth] = useState()
     const [cYear, setCYear] = useState()
     useEffect(()=>{
@@ -57,11 +55,11 @@ function RuzaUpdate() {
             xufton: xufton.current.value,
             vitr: vitr.current.value,
             fasting: ruza.current.checked,
-            created_at:new Date(years[cYear]+"-"+cMonth+"-"+cDay).toJSON()
+            created_at:new Date(years[cYear]+"-"+cMonth+"-"+dayRef.current.value).toJSON()
 		}
         console.log(userRemnantData)
 		if(server){
-			await axios.post(server + '/api/remnant',userRemnantData,  {
+			await axios.post(`${server}/api/remnant`,userRemnantData,  {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization':`Bearer ${window.localStorage.getItem('access_token')}`

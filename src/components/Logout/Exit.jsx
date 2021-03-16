@@ -1,7 +1,6 @@
 import './Exit.css';
 import { useEffect } from "react";
 import user_ava_1 from '././assets/user_ava_1.png';
-import { Lang } from "../lang/languages"
 import { useLang } from '../lang/langContext'
 import { useLogOut } from './Context'
 import { useParams } from 'react-router-dom';
